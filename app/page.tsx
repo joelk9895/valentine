@@ -1,6 +1,7 @@
 "use client";
 import { useScroll, useTransform, motion, useSpring } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, use } from "react";
+import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
 
 export default function Home() {
   const target = useRef(null);
@@ -16,7 +17,7 @@ export default function Home() {
     "Are you sure you're not a robot?",
     "Are you positively absolutely sure?",
     "Are you as sure as a cat in a sunbeam?",
-    "Are you sure you didn't accidentally click 'Yes'?",
+    "Are you sure you didn't accidentally click 'No'?",
     "Are you as sure as a squirrel with a nut?",
     "Are you sure you're not just guessing?",
     "Are you sure you didn't hit your head?",
@@ -24,10 +25,12 @@ export default function Home() {
     "Are you sure you're not sleepwalking?",
     "Are you as sure as a penguin on ice?",
   ];
+  const [yesClicked, setYesClicked] = useState(false);
 
   const handleClick = () => {
     setScaleYes((prev) => prev + 0.1);
     setScaleNo((prev) => prev - 0.1);
+    setYesClicked(false);
     if (count < messages.length) {
       setText(messages[count]);
       setCount((prev) => prev + 1);
@@ -35,7 +38,7 @@ export default function Home() {
       setText("Are you really really sure?");
     }
   };
-
+  const audioRef = useRef(null);
   useEffect(() => {
     function checkIfMobile() {
       const userAgent = navigator.userAgent.toLowerCase();
@@ -89,10 +92,36 @@ export default function Home() {
   const opacities2 = useSpring(opacity2, { damping: 10 });
   const opacities3 = useSpring(opacity3, { damping: 10 });
   const opacities4 = useSpring(opacity4, { damping: 10 });
+  useEffect(() => {
+    document.body.classList.add("disable-scroll");
+  }, []);
+  const handleTease = () => {
+    alert("Hihi, pedikanda scroll cheytho😉");
+    document.body.classList.remove("disable-scroll");
+  };
+
+  useEffect(() => {
+    function handleScroll() {
+      if (
+        scrollYProgress.get() >= 0.5 &&
+        scrollYProgress.get() <= 0.9 &&
+        audioRef.current
+      ) {
+        audioRef.current.play();
+      } else {
+        audioRef.current.pause();
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrollYProgress]);
   if (isMobile) {
     return (
       <div className="flex h-screen justify-center items-center">
-        <h1 className="text-3xl text-red-500">
+        <h1 className="text-3xl text-red-500 z">
           Mobile devices are not supported. Please use a desktop browser.
         </h1>
       </div>
@@ -101,12 +130,12 @@ export default function Home() {
     return (
       <motion.main
         ref={target}
-        className="flex h-[1000vh] flex-col items-center"
+        className="flex h-[1000vh] flex-col items-center text-black"
         style={{ background: bgColors }}
       >
         <div className="sticky top-0 left-0 h-[100vh] w-[100vw]">
           <motion.div
-            className="flex absolute justify-center items-center w-[100vw] h-[100vh]"
+            className="flex flex-col absolute justify-center items-center w-[100vw] h-[100vh]"
             style={{
               scale: scales1,
               opacity: opacities1,
@@ -116,6 +145,12 @@ export default function Home() {
               Today&apos;s <span className=" text-pink-700">Valentines ❤️</span>{" "}
               day{" "}
             </h1>
+            <button
+              className="mt-10 bg-black text-white p-3 rounded-md z-10"
+              onClick={handleTease}
+            >
+              Click me
+            </button>
           </motion.div>
           <motion.div
             className="flex absolute justify-center items-center w-[100vw] h-[100vh]"
@@ -136,7 +171,12 @@ export default function Home() {
             }}
           >
             <h3 className="text-3xl font-medium">DrumRoll please 🥁</h3>
-            <audio controls src="./drum.mp3" />
+            <audio
+              src={
+                "https://joelkgeorge.blob.core.windows.net/web/web/drumroll.mp3"
+              }
+              ref={audioRef}
+            />
           </motion.div>
           <motion.div
             className="flex flex-col absolute justify-center items-center w-[100vw] h-[100vh]"
@@ -145,16 +185,16 @@ export default function Home() {
               opacity: opacities4,
             }}
           >
-            <div className="bg-white flex flex-col items-center justify-center p-10 rounded-lg">
+            <div className="bg-white flex flex-col items-center justify-center p-10 rounded-lg z-10">
               <h3 className="text-4xl font-semibold">
                 Will you be my best friend? (Nervous)
               </h3>
-              <p>{text}</p>
+              <p className="font-regular text-gray-600">{text}</p>
               <div className="flex mt-7 gap-10 items-center">
                 <motion.button
                   className="text-center text-xl bg-blue-700 text-white px-2 py-1 rounded-lg transition-all duration-300 ease-in-out"
                   style={{ scale: scaleYes }}
-                  onClick={handleClick}
+                  onClick={() => setYesClicked(true)}
                 >
                   Yes
                 </motion.button>
@@ -165,6 +205,7 @@ export default function Home() {
                 >
                   No
                 </motion.button>
+                {yesClicked ? <Fireworks autorun={{ speed: 1 }} /> : null}
               </div>
             </div>
           </motion.div>

@@ -31,3 +31,7 @@ body {
     text-wrap: balance;
   }
 }
+.disable-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
