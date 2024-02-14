@@ -61,7 +61,7 @@ export default function Home() {
   );
   const opacity2 = useTransform(
     scrollYProgress,
-    [0.3, 0.4, 0.5, 0.6],
+    [0.2, 0.4, 0.5, 0.6],
     [0, 1, 1, 0]
   );
 
@@ -134,24 +134,27 @@ export default function Home() {
         style={{ background: bgColors }}
       >
         <div className="sticky top-0 left-0 h-[100vh] w-[100vw]">
-          <motion.div
-            className="flex flex-col absolute justify-center items-center w-[100vw] h-[100vh]"
-            style={{
-              scale: scales1,
-              opacity: opacities1,
-            }}
-          >
-            <h1 className="text-5xl font-semibold">
+          <div className="flex flex-col absolute justify-center items-center w-[100vw] h-[100vh]">
+            <motion.h1
+              className="text-5xl font-semibold mt-10"
+              style={{
+                scale: scales1,
+                opacity: opacities1,
+              }}
+            >
               Today&apos;s <span className=" text-pink-700">Valentines ❤️</span>{" "}
               day{" "}
-            </h1>
-            <button
-              className="mt-10 bg-black text-white p-3 rounded-md z-10"
+            </motion.h1>
+            <motion.button
+              className="relative top-10 bg-black text-white p-3 rounded-md z-10"
               onClick={handleTease}
+              style={{
+                opacity: opacities1,
+              }}
             >
               Click me
-            </button>
-          </motion.div>
+            </motion.button>
+          </div>
           <motion.div
             className="flex absolute justify-center items-center w-[100vw] h-[100vh]"
             style={{
