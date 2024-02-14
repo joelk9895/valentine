@@ -107,9 +107,9 @@ export default function Home() {
         scrollYProgress.get() <= 0.9 &&
         audioRef.current
       ) {
-        audioRef.current.play();
+        (audioRef.current as unknown as HTMLAudioElement).play();
       } else {
-        audioRef.current.pause();
+        (audioRef.current as unknown as HTMLAudioElement).pause();
       }
     }
 
