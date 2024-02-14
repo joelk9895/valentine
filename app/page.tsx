@@ -48,16 +48,6 @@ export default function Home() {
     checkIfMobile();
   }, []);
 
-  if (isMobile) {
-    return (
-      <div className="flex h-screen justify-center items-center">
-        <h1 className="text-3xl text-red-500">
-          Mobile devices are not supported. Please use a desktop browser.
-        </h1>
-      </div>
-    );
-  }
-
   const scale1 = useTransform(scrollYProgress, [0, 0.2], [1, 1.3]);
   const opacity1 = useTransform(scrollYProgress, [0.1, 0.2], [1, 0]);
 
@@ -99,77 +89,86 @@ export default function Home() {
   const opacities2 = useSpring(opacity2, { damping: 10 });
   const opacities3 = useSpring(opacity3, { damping: 10 });
   const opacities4 = useSpring(opacity4, { damping: 10 });
-  return (
-    <motion.main
-      ref={target}
-      className="flex h-[1000vh] flex-col items-center"
-      style={{ background: bgColors }}
-    >
-      <div className="sticky top-0 left-0 h-[100vh] w-[100vw]">
-        <motion.div
-          className="flex absolute justify-center items-center w-[100vw] h-[100vh]"
-          style={{
-            scale: scales1,
-            opacity: opacities1,
-          }}
-        >
-          <h1 className="text-5xl font-semibold">
-            Today&apos;s <span className=" text-pink-700">Valentines ❤️</span>{" "}
-            day{" "}
-          </h1>
-        </motion.div>
-        <motion.div
-          className="flex absolute justify-center items-center w-[100vw] h-[100vh]"
-          style={{
-            scale: scales2,
-            opacity: opacities2,
-          }}
-        >
-          <h2 className="text-center font-semibold text-5xl">
-            I'm not asking to be your valentines.
-          </h2>
-        </motion.div>
-        <motion.div
-          className="flex absolute justify-center items-center w-[100vw] h-[100vh]"
-          style={{
-            scale: scales3,
-            opacity: opacities3,
-          }}
-        >
-          <h3 className="text-3xl font-medium">DrumRoll please 🥁</h3>
-          <audio controls src="/drum.mp3" />
-        </motion.div>
-        <motion.div
-          className="flex flex-col absolute justify-center items-center w-[100vw] h-[100vh]"
-          style={{
-            scale: scales4,
-            opacity: opacities4,
-          }}
-        >
-          <div className="bg-white flex flex-col items-center justify-center p-10 rounded-lg">
-            <h3 className="text-4xl font-semibold">
-              Will you be my best friend? (Nervous)
-            </h3>
-            <p>{text}</p>
-            <div className="flex mt-7 gap-10 items-center">
-              <motion.button
-                className="text-center text-xl bg-blue-700 text-white px-2 py-1 rounded-lg transition-all duration-300 ease-in-out"
-                style={{ scale: scaleYes }}
-                onClick={handleClick}
-              >
-                Yes
-              </motion.button>
-              <motion.button
-                className="text-white text-xl px-2 py-1 rounded-lg bg-black transition-all duration-300 ease-in-out"
-                style={{ scale: scaleNo }}
-                onClick={handleClick}
-              >
-                No
-              </motion.button>
-            </div>
-          </div>
-        </motion.div>
+  if (isMobile) {
+    return (
+      <div className="flex h-screen justify-center items-center">
+        <h1 className="text-3xl text-red-500">
+          Mobile devices are not supported. Please use a desktop browser.
+        </h1>
       </div>
-    </motion.main>
-  );
+    );
+  } else
+    return (
+      <motion.main
+        ref={target}
+        className="flex h-[1000vh] flex-col items-center"
+        style={{ background: bgColors }}
+      >
+        <div className="sticky top-0 left-0 h-[100vh] w-[100vw]">
+          <motion.div
+            className="flex absolute justify-center items-center w-[100vw] h-[100vh]"
+            style={{
+              scale: scales1,
+              opacity: opacities1,
+            }}
+          >
+            <h1 className="text-5xl font-semibold">
+              Today&apos;s <span className=" text-pink-700">Valentines ❤️</span>{" "}
+              day{" "}
+            </h1>
+          </motion.div>
+          <motion.div
+            className="flex absolute justify-center items-center w-[100vw] h-[100vh]"
+            style={{
+              scale: scales2,
+              opacity: opacities2,
+            }}
+          >
+            <h2 className="text-center font-semibold text-5xl">
+              I&apos;m not asking to be your valentines.
+            </h2>
+          </motion.div>
+          <motion.div
+            className="flex absolute justify-center items-center w-[100vw] h-[100vh]"
+            style={{
+              scale: scales3,
+              opacity: opacities3,
+            }}
+          >
+            <h3 className="text-3xl font-medium">DrumRoll please 🥁</h3>
+            <audio controls src="/drum.mp3" />
+          </motion.div>
+          <motion.div
+            className="flex flex-col absolute justify-center items-center w-[100vw] h-[100vh]"
+            style={{
+              scale: scales4,
+              opacity: opacities4,
+            }}
+          >
+            <div className="bg-white flex flex-col items-center justify-center p-10 rounded-lg">
+              <h3 className="text-4xl font-semibold">
+                Will you be my best friend? (Nervous)
+              </h3>
+              <p>{text}</p>
+              <div className="flex mt-7 gap-10 items-center">
+                <motion.button
+                  className="text-center text-xl bg-blue-700 text-white px-2 py-1 rounded-lg transition-all duration-300 ease-in-out"
+                  style={{ scale: scaleYes }}
+                  onClick={handleClick}
+                >
+                  Yes
+                </motion.button>
+                <motion.button
+                  className="text-white text-xl px-2 py-1 rounded-lg bg-black transition-all duration-300 ease-in-out"
+                  style={{ scale: scaleNo }}
+                  onClick={handleClick}
+                >
+                  No
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </motion.main>
+    );
 }
