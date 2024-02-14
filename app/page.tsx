@@ -120,8 +120,8 @@ export default function Home() {
   }, [scrollYProgress]);
   if (isMobile) {
     return (
-      <div className="flex h-screen justify-center items-center">
-        <h1 className="text-3xl text-red-500 z">
+      <div className="flex h-screen justify-center items-center bg-black">
+        <h1 className="text-3xl text-red-500 text-center font-medium">
           Mobile devices are not supported. Please use a desktop browser.
         </h1>
       </div>
