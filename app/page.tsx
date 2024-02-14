@@ -136,7 +136,7 @@ export default function Home() {
             }}
           >
             <h3 className="text-3xl font-medium">DrumRoll please 🥁</h3>
-            <audio controls src="/drum.mp3" />
+            <audio controls src="./drum.mp3" />
           </motion.div>
           <motion.div
             className="flex flex-col absolute justify-center items-center w-[100vw] h-[100vh]"
