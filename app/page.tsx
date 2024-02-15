@@ -94,7 +94,13 @@ export default function Home() {
   const opacities4 = useSpring(opacity4, { damping: 10 });
   useEffect(() => {
     document.body.classList.add("disable-scroll");
+    if (scrollYProgress.get() >= 0.4) {
+      document.body.classList.remove("disable-scroll");
+    }
   }, []);
+
+  document.body.classList.remove("disable-scroll");
+
   const handleTease = () => {
     alert("Hihi, pedikanda scroll cheytho😉");
     document.body.classList.remove("disable-scroll");
